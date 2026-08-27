@@ -1,8 +1,8 @@
 import { React } from "@vendetta/metro/common";
-import { General } from "@vendetta/ui/components";
+import { Forms } from "@vendetta/ui/components";
 import { StatusRotatorAPI } from "./index";
 
-const { ScrollView, Text, TextInput, Switch, Button } = General;
+const { FormSection, FormRow, FormSwitchRow, FormInput, FormDivider } = Forms;
 
 export default function Settings() {
     const [settings, setSettings] = React.useState(StatusRotatorAPI.getSettings());
@@ -25,33 +25,49 @@ export default function Settings() {
     };
 
     return (
-        <ScrollView>
-            <Text>Enabled</Text>
-            <Switch value={settings.enabled} onValueChange={(v) => update({ enabled: v })} />
+        <Forms.FormScrollView>
+            <FormSection title="General">
+                <FormSwitchRow
+                    label="Enabled"
+                    value={settings.enabled}
+                    onValueChange={(v) => update({ enabled: v })}
+                />
+                <FormDivider />
+                <FormInput
+                    title="Interval (minutes)"
+                    value={String(settings.intervalMinutes)}
+                    onChange={(v) => update({ intervalMinutes: parseInt(v) || 1 })}
+                    keyboardType="numeric"
+                />
+                <FormDivider />
+                <FormSwitchRow
+                    label="Random order"
+                    value={settings.randomOrder}
+                    onValueChange={(v) => update({ randomOrder: v })}
+                />
+            </FormSection>
 
-            <Text>Interval (minutes)</Text>
-            <TextInput
-                value={String(settings.intervalMinutes)}
-                onChangeText={(v) => update({ intervalMinutes: parseInt(v) || 1 })}
-                keyboardType="numeric"
-            />
-
-            <Text>Random order</Text>
-            <Switch value={settings.randomOrder} onValueChange={(v) => update({ randomOrder: v })} />
-
-            <Text>Statuses</Text>
-            {settings.statuses.map((s, i) => (
-                <Text key={i} onPress={() => removeStatus(i)}>
-                    {s.text}
-                </Text>
-            ))}
-
-            <TextInput
-                placeholder="New status text"
-                value={newStatus}
-                onChangeText={setNewStatus}
-            />
-            <Button title="Add status" onPress={addStatus} />
-        </ScrollView>
+            <FormSection title="Statuses">
+                {settings.statuses.map((s, i) => (
+                    <FormRow
+                        key={i}
+                        label={s.text}
+                        onPress={() => removeStatus(i)}
+                        trailing={FormRow.Arrow}
+                    />
+                ))}
+                <FormDivider />
+                <FormInput
+                    title="New status text"
+                    value={newStatus}
+                    onChange={setNewStatus}
+                    placeholder="e.g. taking a break"
+                />
+                <FormRow
+                    label="Add status"
+                    onPress={addStatus}
+                />
+            </FormSection>
+        </Forms.FormScrollView>
     );
 }
