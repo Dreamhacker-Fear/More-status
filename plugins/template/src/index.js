@@ -1,5 +1,6 @@
 import { findByProps } from "@vendetta/metro";
 import { storage } from "@vendetta/plugin";
+import Settings from "./Settings";
 
 const CustomStatusStore = findByProps("updateAsync", "getCustomStatus");
 
@@ -107,3 +108,5 @@ export const StatusRotatorAPI = {
         return settings.enabled;
     },
 };
+
+export { Settings as settings };
