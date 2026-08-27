@@ -1,7 +1,8 @@
 import { React } from "@vendetta/metro/common";
-import { Forms } from "@vendetta/ui/components";
+import { General, Forms } from "@vendetta/ui/components";
 import { StatusRotatorAPI } from "./index";
 
+const { ScrollView } = General;
 const { FormSection, FormRow, FormSwitchRow, FormInput, FormDivider } = Forms;
 
 export default function Settings() {
@@ -25,7 +26,7 @@ export default function Settings() {
     };
 
     return (
-        <Forms.FormScrollView>
+        <ScrollView>
             <FormSection title="General">
                 <FormSwitchRow
                     label="Enabled"
@@ -53,7 +54,6 @@ export default function Settings() {
                         key={i}
                         label={s.text}
                         onPress={() => removeStatus(i)}
-                        trailing={FormRow.Arrow}
                     />
                 ))}
                 <FormDivider />
@@ -68,6 +68,6 @@ export default function Settings() {
                     onPress={addStatus}
                 />
             </FormSection>
-        </Forms.FormScrollView>
+        </ScrollView>
     );
 }
